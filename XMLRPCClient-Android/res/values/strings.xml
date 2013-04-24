@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">XML-RPC Test</string>
+    <string name="Nome">Nome</string>
+    <string name="End">Endereço</string>
+    <string name="Data">Data de nascimento</string>
+    <string name="Rg">Rg</string>
+    <string name="textoBotão">Cadastrar</string>
 </resources>

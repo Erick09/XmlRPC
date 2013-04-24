@@ -4,63 +4,64 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-<!--     <TextView  -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:text="@string/Nome"/> -->
+    <TextView 
+        android:id="@+id/Exibe"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/Nome"/>
     
-<!--     <EditText  -->
-<!--         android:id="@+id/Nome" -->
-<!--         android:layout_width = "fill_parent" -->
-<!--         android:layout_height = "wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:inputType="text"/> -->
+    <EditText 
+        android:id="@+id/Nome"
+        android:layout_width = "fill_parent"
+        android:layout_height = "wrap_content"
+        android:layout_weight="1"
+        android:inputType="text"/>
     
-<!--     <TextView  -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:text="@string/End"/> -->
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/End"/>
     
-<!--     <EditText  -->
-<!--         android:id="@+id/End" -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="2" -->
-<!--         android:inputType="text"/> -->
+    <EditText 
+        android:id="@+id/End"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:inputType="text"/>
     
-<!--     <TextView  -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:text="@string/Data"/> -->
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/Data"/>
     
-<!--     <EditText -->
-<!--         android:id="@+id/Data" -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:inputType="text" /> -->
+    <EditText
+        android:id="@+id/Data"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="text" />
     
-<!--     <TextView  -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:text="@string/Rg"/> -->
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/Rg"/>
     
-<!--     <EditText -->
-<!--         android:id="@+id/Rg" -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:inputType="number" /> -->
+    <EditText
+        android:id="@+id/Rg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number" />
     
-<!--     <Button  -->
-<!--         android:id="@+id/butCad" -->
-<!--         android:layout_width="fill_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_weight="1" -->
-<!--         android:text="@string/textoBotão"/> -->
+    <Button 
+        android:id="@+id/butCad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/textoBotão"/>
     
 </LinearLayout>

@@ -2,9 +2,6 @@ package br.ifce.xmlrpcclient_android;
 
 import java.net.URI;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,27 +11,23 @@ import org.xmlrpc.android.XMLRPCException;
 import org.xmlrpc.android.XMLRPCFault;
 import org.xmlrpc.android.XMLRPCSerializable;
 
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextSwitcher;
+import android.widget.Button;
+import android.widget.EditText;
+//import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+
 
 /**
  * Demonstrates use of XMLRPC library.
@@ -61,266 +54,45 @@ import android.widget.AdapterView.OnItemClickListener;
  * 
  */
 
-public class Cadastro extends Activity {
+public class Cadastro extends Activity implements OnClickListener{
 
 	private XMLRPCClient client;
 	private URI uri;
-	private DateFormat dateFormat;
-	private DateFormat timeFormat;
-	private Drawable errorDrawable;
-
-	private TextView status;
-	private TextSwitcher testResult;
-	private ListView tests;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+				
 		uri = URI.create("http://10.0.2.2:8888");
 		client = new XMLRPCClient(uri);
+		
+		setContentView(R.layout.activity_cadastro);
+		
+		Button b = (Button) findViewById(R.id.butCad);
+		b.setOnClickListener(this);
 
-		setContentView(R.layout.main);
-        testResult = (TextSwitcher) findViewById(R.id.text_result);
-        
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View v0 = inflater.inflate(R.layout.text_view, null);
-        View v1 = inflater.inflate(R.layout.text_view, null);
-        LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        testResult.addView(v0, 0, layoutParams);
-        testResult.addView(v1, 1, layoutParams);
-        testResult.setText("WARNING, before calling any test make sure server.py is running !!!");
-
-        Animation inAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
-        Animation outAnim = AnimationUtils.loadAnimation(this, R.anim.push_left_out);
-//        Animation inAnim = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-//        Animation outAnim = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
-        inAnim.setStartOffset(250);
-        testResult.setInAnimation(inAnim);
-        testResult.setOutAnimation(outAnim);
-        errorDrawable = getResources().getDrawable(R.drawable.error);
-        errorDrawable.setBounds(0, 0, errorDrawable.getIntrinsicWidth(), errorDrawable.getIntrinsicHeight());
-
-        status = (TextView) findViewById(R.id.status);
-		dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.FULL);
-		timeFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.DEFAULT);
-
-		tests = (ListView) findViewById(R.id.tests);
-		ArrayAdapter<String> adapter = new TestAdapter(this, R.layout.test, R.id.title);
-		adapter.add("add 3 to 3.6;in [int, float] out double");
-		adapter.add("1 day from now;in/out Date");
-		adapter.add("test string;in/out String");
-		adapter.add("test struct;in/out Map");
-		adapter.add("test array;in/out Object[]");
-		adapter.add("Exibir;escreve nome");
-		adapter.add("invert random bool;in/out boolean");
-		adapter.add("get huge string");
-		adapter.add("get complex 2D array");
-		adapter.add("use of XMLRPCSerializable object");
-		tests.setAdapter(adapter);
-		tests.setOnItemClickListener(testListener);
 	}
 	
-	OnItemClickListener testListener = new OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			if (position == 0) {
-		        XMLRPCMethod method = new XMLRPCMethod("add", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						testResult.setText(result.toString());
-					}
-		        });
-		        Object[] params = {
-		        		3,
-		        		3.6f,
-		        };
-		        method.call(params);
-			} else
-			if (position == 1) {
-		        XMLRPCMethod method = new XMLRPCMethod("addOneDay", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						testResult.setText(dateFormat.format(result) + "\n" + timeFormat.format(result));
-					}
-		        });
-		        Object[] params = {
-		        		new Date(),
-		        };
-		        method.call(params);
-			} else
-			if (position == 2) {
-		        XMLRPCMethod method = new XMLRPCMethod("getHostName", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						testResult.setText(result.toString());
-					}
-		        });
-		        TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		        String ssn = "unknown";
-		        if (manager != null) {
-		        	ssn = manager.getSimSerialNumber();
-		        	if (ssn == null) {
-		        		ssn = "unknown";
-		        	}
-		        }
-		        Object[] params = {
-		        		ssn,
-		        };	
-		        method.call(params);
-			} else
-			if (position == 3) {
-		        XMLRPCMethod method = new XMLRPCMethod("testStruct", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						Map<String, Object> map = (Map<String, Object>) result;
-						testResult.setText("City: " + map.get("City") + "\nTemperature: " + map.get("Temperature") + " °C");
-					}
-		        });
-		        Map<String, Object> map = new HashMap<String, Object>();
-		        map.put("City", "Barcelona");
-		        Object[] params = {
-		        		map,
-		        };
-		        method.call(params);
-			} else
-			if (position == 4) {
-		        XMLRPCMethod method = new XMLRPCMethod("testArray", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						Object[] arr = (Object[]) result;
-						testResult.setText("Sum: " + arr[0] + "\nLength: " + arr[1]);
-					}
-		        });
-		        Object[] array = {
-		        		1, 2, 3, 4, 5, 6
-		        };
-		        Object[] params = {
-		        		array,
-		        };
-		        method.call(params);
-			} else
-			if (position == 5) {
-				
-				XMLRPCMethod method = new XMLRPCMethod("exibe", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						testResult.setText(result.toString());
-					}
-		        });
-		        Object[] params = {
-		        		"Chico",
-		        		"12/12/1212"
-		        };
-		        method.call(params);				
-				
-//		        BitmapDrawable bd = (BitmapDrawable) getResources().getDrawable(R.drawable.android);
-//		        final Bitmap bIn = bd.getBitmap();
-//		        final int w = bIn.getWidth();
-//		        final int h = bIn.getHeight();
-
-//				XMLRPCMethod method = new XMLRPCMethod("desaturateImage", new XMLRPCMethodCallback() {
-//					public void callFinished(Object result) {
-//						byte[] arr = (byte[]) result;
-						// fill-in int[] array & create output Bitmap 
-//						ByteBuffer buffer = ByteBuffer.allocate(w * h * 4);
-//						buffer.order(ByteOrder.LITTLE_ENDIAN);
-//						buffer.put(arr);
-//						buffer.position(0);
-//						int[] iarr = new int[w * h];
-//						for (int i = 0; i < iarr.length; i++) {
-//							iarr[i] = buffer.getInt();
-//						}
-//						Bitmap bOut = Bitmap.createBitmap(iarr, w, h, Config.ARGB_8888);
-						
-						// build Spannable result 
-//						SpannableStringBuilder builder = new SpannableStringBuilder();
-//						builder.append("android in: ");
-//						int l = builder.length();
-//						builder.append("i");
-////						builder.setSpan(new ImageSpan(bIn), l, l+1, 0);
-//						builder.append("    ");
-//						builder.append("host out: ");
-//						l = builder.length();
-//						builder.append("i");
-//						builder.setSpan(new ImageSpan(bOut), l, l+1, 0);
-//						testResult.setText(builder);
-//					}
-//		        });
-//		        ByteBuffer buffer = ByteBuffer.allocate(w * h * 4);
-//				bIn.copyPixelsToBuffer(buffer);
-//		        Object[] params = {
-//		        		buffer.array(),
-//		        };
-//		        method.call(params);
-				
-				
-			} else
-			if (position == 6) {
-		        XMLRPCMethod method = new XMLRPCMethod("invertBoolean", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						testResult.setText(result.toString());
-					}
-		        });
-		        boolean b = Math.random()>0.5? true : false;
-		        Object[] params = {
-		        		b,
-		        };
-		        method.call(params);
-			} else
-			if (position == 7) {
-				XMLRPCMethod method = new XMLRPCMethod("getHugeString", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						String hugeString = (String) result;
-						testResult.setText("Got string with len == " + hugeString.length());
-					}
-				});
-				method.call();
-			} else
-			if (position == 8) {
-				XMLRPCMethod method = new XMLRPCMethod("get2DArray", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						StringBuffer sb = new StringBuffer();
-						sb.append("[");
-						Object[] arrY = (Object[]) result;
-						for (int y=0; y<arrY.length; y++) {
-							Object[] arrX = (Object[]) arrY[y];
-							sb.append("[");
-							for (int x=0; x<arrX.length; x++) {
-								Object object = arrX[x];
-								sb.append(object);
-								if (x + 1 < arrX.length) {
-									sb.append(", ");
-								}
-							}
-							sb.append("]");
-							if (y + 1 < arrY.length) {
-								sb.append(", ");
-							}
-						}
-						sb.append("]");
-						testResult.setText(sb.toString());
-					}
-				});
-				method.call();
-			} else
-			if (position == 9) {
-		        XMLRPCMethod method = new XMLRPCMethod("getCountry", new XMLRPCMethodCallback() {
-					public void callFinished(Object result) {
-						testResult.setText(result.toString());
-					}
-		        });
-		        Person person;
-		        double r = Math.random();
-		        if (r < 1/3.0) {
-		        	person = new Person("John", "Smith");
-		        } else
-		        if (r < 2/3.0) {
-		        	person = new Person("Hans", "Muller");
-		        } else {
-		        	person = new Person("Pablo", "Gonzales");
-		        }
-		        Object[] params = {
-		        		person,
-		        };
-		        method.call(params);
+	public void onClick(View view) {
+		final Context c = this;
+		XMLRPCMethod method = new XMLRPCMethod("exibe", new XMLRPCMethodCallback() {
+			public void callFinished(Object result) {
+				Log.i("INFO",result.toString());
+				Intent it = new Intent( c, TelaConfirmacao.class);
+				startActivity(it);
+				//testResult.setText(result.toString());
 			}
-		}
-	};
-	
+        });
+		EditText textn1 = (EditText) findViewById(R.id.Nome);
+		EditText textn2 = (EditText) findViewById(R.id.Data);
+		
+		String nome = textn1.getText().toString();
+		String data = textn2.getText().toString();
+		
+        Object[] params = {nome,data};
+        method.call(params);
+	}
+
 	class Person implements XMLRPCSerializable {
 		private String firstName;
 		private String lastName;
@@ -378,50 +150,37 @@ public class Cadastro extends Activity {
 		public void call() {
 			call(null);
 		}
+		
 		public void call(Object[] params) {
-			status.setTextColor(0xff80ff80);
-			status.setError(null);
-			status.setText("Calling host " + uri.getHost());
-			tests.setEnabled(false);
 			this.params = params;
 			start();
 		}
+		
 		@Override
 		public void run() {
     		try {
-    			final long t0 = System.currentTimeMillis();
+    			int i = params.length;
+    			Log.i("INFO", "Valor de parms[] "+i);
     			final Object result = client.callEx(method, params);
-    			final long t1 = System.currentTimeMillis();
     			handler.post(new Runnable() {
 					public void run() {
-						tests.setEnabled(true);
-						status.setText("XML-RPC call took " + (t1-t0) + "ms");
 						callBack.callFinished(result);
 					}
     			});
     		} catch (final XMLRPCFault e) {
     			handler.post(new Runnable() {
 					public void run() {
-						testResult.setText("");
-						tests.setEnabled(true);
-						status.setTextColor(0xffff8080);
-						status.setError("", errorDrawable);
-						status.setText("Fault message: " + e.getFaultString() + "\nFault code: " + e.getFaultCode());
 						Log.d("Test", "error", e);
 					}
     			});
     		} catch (final XMLRPCException e) {
     			handler.post(new Runnable() {
 					public void run() {
-						testResult.setText("");
-						tests.setEnabled(true);
-						status.setTextColor(0xffff8080);
-						status.setError("", errorDrawable);
 						Throwable couse = e.getCause();
 						if (couse instanceof HttpHostConnectException) {
-							status.setText("Cannot connect to " + uri.getHost() + "\nMake sure server.py on your development host is running !!!");
+							Log.i("INFO",e.toString());
 						} else {
-							status.setText("Error " + e.getMessage());
+							Log.i("INFO",e.toString());
 						}
 						Log.d("Test", "error", e);
 					}
