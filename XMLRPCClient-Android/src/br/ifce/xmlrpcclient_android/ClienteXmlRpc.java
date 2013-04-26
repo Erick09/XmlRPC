@@ -8,7 +8,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 public class ClienteXmlRpc {
 	
-	private static final String urlServidor = "http://10.0.2.2:8185"; //DEFINE A URL DO SERVIDOR //porta:8185
+	private static final String urlServidor = "http://10.0.2.2:8888"; //DEFINE A URL DO SERVIDOR //porta:8888
 	private XmlRpcClient xmlrpc;
 
 	public ClienteXmlRpc() {
@@ -26,6 +26,7 @@ public class ClienteXmlRpc {
 
 	public Object executar(String comando, Object[] parametros) {
 		try {
+			
 			Object resposta = xmlrpc.execute(comando, parametros);
 			return resposta;
 		} catch (XmlRpcException e) {
