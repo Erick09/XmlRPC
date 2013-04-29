@@ -8,60 +8,52 @@
         android:id="@+id/Exibe"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="@string/Nome"/>
     
     <EditText 
-        android:id="@+id/Nome"
+        android:id="@+id/Usuario"
         android:layout_width = "fill_parent"
         android:layout_height = "wrap_content"
-        android:layout_weight="1"
         android:inputType="text"/>
     
     <TextView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="@string/End"/>
     
     <EditText 
-        android:id="@+id/End"
+        android:id="@+id/Item"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
         android:inputType="text"/>
     
     <TextView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="@string/Data"/>
     
     <EditText
-        android:id="@+id/Data"
+        android:id="@+id/Quantidade"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:inputType="text" />
-    
-    <TextView 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/Rg"/>
-    
-    <EditText
-        android:id="@+id/Rg"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:inputType="number" />
     
     <Button 
         android:id="@+id/butCad"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/textoBotão"/>
+        android:text="@string/btnCad"/>
+    
+    <TextView 
+        android:id="@+id/Res"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <Button 
+        android:id="@+id/butExi"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btnExi"/>
+    
     
 </LinearLayout>

@@ -1,8 +1,9 @@
 package br.ifce.xmlrpcclient_android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.webkit.WebView;
 
 public class TelaConfirmacao extends Activity {
 	
@@ -10,9 +11,15 @@ public class TelaConfirmacao extends Activity {
 	public void onCreate(Bundle icicle)
 	{
 		super.onCreate(icicle);
-		TextView view = new TextView(this);
-		view.setText("Cadastro Confirmado");
-		setContentView(view);
+		WebView qrImage = new WebView(this);
+		
+		Intent it = getIntent();
+		Bundle b = it.getExtras();
+		String tmp = b.getString("myKey");
+				
+		qrImage.loadUrl(tmp);
+		
+		setContentView(qrImage);
 	}
 
 }

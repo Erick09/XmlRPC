@@ -21,12 +21,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-//import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -55,7 +52,7 @@ import android.widget.TextView;
  * 
  */
 
-public class Cadastro extends Activity implements OnClickListener{
+public class Cadastro extends Activity{
 
 	private XMLRPCClient client;
 	private URI uri;
@@ -69,43 +66,50 @@ public class Cadastro extends Activity implements OnClickListener{
 		
 		setContentView(R.layout.activity_cadastro);
 		
-		Button b = (Button) findViewById(R.id.butCad);
-		b.setOnClickListener(this);
-
+		final TextView res = (TextView) findViewById(R.id.Res);
+		final Button exibe = (Button) findViewById(R.id.butExi);
+		exibe.setVisibility(View.INVISIBLE);
+		
+		Button cad = (Button) findViewById(R.id.butCad);
+		cad.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				XMLRPCMethod method = new XMLRPCMethod("Calc.urlQr", new XMLRPCMethodCallback() {
+					public void callFinished(Object result) {
+						Log.i("INFO",result.toString());
+						res.setText(result.toString());
+						exibe.setVisibility(View.VISIBLE);
+					}
+		        });
+				EditText textn1 = (EditText) findViewById(R.id.Usuario);
+				EditText textn2 = (EditText) findViewById(R.id.Item);
+				EditText textn3 = (EditText) findViewById(R.id.Quantidade);
+				
+				String nome = textn1.getText().toString();
+				String data = textn2.getText().toString();
+				int s = Integer.parseInt(textn3.getText().toString());
+		        Object[] params = {nome,data,s};
+		        method.call(params);				
+			}
+		});
+		
+		
+		exibe.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+					String nes = res.getText().toString();
+					Intent intent = new	Intent(getApplicationContext(),TelaConfirmacao.class);
+					intent.putExtra("myKey", nes);  
+					startActivity(intent);
+					
+				}
+				
+			});
+		
 	}
 	
-	public void onClick(View view) {
-		final Context c = this;
-		XMLRPCMethod method = new XMLRPCMethod("Calc.exibe", new XMLRPCMethodCallback() {
-			public void callFinished(Object result) {
-				Log.i("INFO",result.toString());
-				Intent it = new Intent( c, TelaConfirmacao.class);
-				startActivity(it);
-				//testResult.setText(result.toString());
-			}
-        });
-		EditText textn1 = (EditText) findViewById(R.id.Nome);
-		EditText textn2 = (EditText) findViewById(R.id.Data);
-		
-		String nome = textn1.getText().toString();
-		String data = textn2.getText().toString();
-		String s = "";
-        Object[] params = {s,nome,data};
-        method.call(params);
-		
-		
-//		CalculadoraCliente x = new CalculadoraCliente();
-//		EditText textn1 = (EditText) findViewById(R.id.Nome);
-//		EditText textn2 = (EditText) findViewById(R.id.Data);
-//		
-//		String nome = textn1.getText().toString();
-//		String data = textn2.getText().toString();
-//		
-//		String s = x.exibe(nome, data);
-//		Toast.makeText(this, s, Toast.LENGTH_LONG).show();
-		
-	}
-
 	class Person implements XMLRPCSerializable {
 		private String firstName;
 		private String lastName;
