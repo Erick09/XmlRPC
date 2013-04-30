@@ -2,7 +2,7 @@ package br.ifce.teste;
 
 import java.util.StringTokenizer;
 
-public class Calculadora {
+public class Metodos {
 	
 	public int soma(int x, int y) {
 		return x + y;

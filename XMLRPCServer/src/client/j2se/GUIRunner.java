@@ -48,61 +48,66 @@ import javax.swing.JTextArea;
  */
 public final class GUIRunner extends JFrame {
 
-  private final JLabel imageLabel;
-  private final JTextArea textArea;
+  /**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 3927231889186205129L;
+	private final JLabel imageLabel;
+	private final JTextArea textArea;
 
-  private GUIRunner() {
-    imageLabel = new JLabel();
-    textArea = new JTextArea();
-    textArea.setEditable(false);
-    textArea.setMaximumSize(new Dimension(400, 200));
-    Container panel = new JPanel();
-    panel.setLayout(new FlowLayout());
-    panel.add(imageLabel);
-    panel.add(textArea);
-    setTitle("ZXing");
-    setSize(400, 400);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setContentPane(panel);
-    setLocationRelativeTo(null);
-  }
+	private GUIRunner() {
+		imageLabel = new JLabel();
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setMaximumSize(new Dimension(400, 200));
+		Container panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		panel.add(imageLabel);
+		panel.add(textArea);
+		setTitle("ZXing");
+		setSize(400, 400);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setContentPane(panel);
+		setLocationRelativeTo(null);
+	}
 
-  public static void main(String[] args) throws MalformedURLException {
-    GUIRunner runner = new GUIRunner();
-    runner.setVisible(true);
-    runner.chooseImage();
-  }
+	public static void main(String[] args) throws MalformedURLException {
+		GUIRunner runner = new GUIRunner();
+		runner.setVisible(true);
+		runner.chooseImage();
+	}
 
-  private void chooseImage() throws MalformedURLException {
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.showOpenDialog(this);
-    File file = fileChooser.getSelectedFile();
-    Icon imageIcon = new ImageIcon(file.toURI().toURL());
-    setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight() + 100);
-    imageLabel.setIcon(imageIcon);
-    String decodeText = getDecodeText(file);
-    textArea.setText(decodeText);
-  }
+	private void chooseImage() throws MalformedURLException {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.showOpenDialog(this);
+		File file = fileChooser.getSelectedFile();
+		Icon imageIcon = new ImageIcon(file.toURI().toURL());
+		setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight() + 100);
+		imageLabel.setIcon(imageIcon);
+		String decodeText = getDecodeText(file);
+		textArea.setText(decodeText);
+	}
 
-  private static String getDecodeText(File file) {
-    BufferedImage image;
-    try {
-      image = ImageIO.read(file);
-    } catch (IOException ioe) {
-      return ioe.toString();
-    }
-    if (image == null) {
-      return "Could not decode image";
-    }
-    LuminanceSource source = new BufferedImageLuminanceSource(image);
-    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-    Result result;
-    try {
-      result = new MultiFormatReader().decode(bitmap);
-    } catch (ReaderException re) {
-      return re.toString();
-    }
-    return String.valueOf(result.getText());
-  }
+	private static String getDecodeText(File file) {
+		BufferedImage image;
+		try {
+			image = ImageIO.read(file);
+		} catch (IOException ioe) {
+			return ioe.toString();
+		}
+		if (image == null) {
+			return "Could not decode image";
+		}
+		LuminanceSource source = new BufferedImageLuminanceSource(image);
+		BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+		Result result;
+		try {
+			result = new MultiFormatReader().decode(bitmap);
+		} catch (ReaderException re) {
+			return re.toString();
+		}
+		return String.valueOf(result.getText());
+	}
 
 }

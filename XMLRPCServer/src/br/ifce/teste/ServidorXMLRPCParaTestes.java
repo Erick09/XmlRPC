@@ -19,7 +19,7 @@ public class ServidorXMLRPCParaTestes {
 			final WebServer server = new WebServer(8888); // Cria um servidor na porta 8888
 			XmlRpcServer servidor = server.getXmlRpcServer(); // Pega o servidor XmlRpc
 			PropertyHandlerMapping phm = new PropertyHandlerMapping();
-			phm.addHandler("Calc", Calculadora.class); // Adiciona um novo "handler" ao PHM
+			phm.addHandler("Calc", Metodos.class); // Adiciona um novo "handler" ao PHM
 			servidor.setHandlerMapping(phm); // Define o handler no servidor
 			server.start(); // inicia o servidor.
 			
