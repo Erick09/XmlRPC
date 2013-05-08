@@ -1,9 +1,5 @@
-package br.ifce.teste;
-/*
- * Classe encontrada em http://www.guj.com.br/java/135814-zxing
- * Transforma uma imagem em um array de bytes para ser trabalhado
- * pelas classes decodificadoras do ZXing 
- */
+package br.ifce.qrcode;
+
 import java.awt.Graphics;  
 import java.awt.Image;  
 import java.awt.image.BufferedImage;  
@@ -12,8 +8,8 @@ import javax.swing.ImageIcon;
   
 import jp.sourceforge.qrcode.data.QRCodeImage;  
   
-public class MyImage implements QRCodeImage{
-	
+public class MyImage implements QRCodeImage{  
+      
     private BufferedImage code;  
       
     public MyImage(String image) {  

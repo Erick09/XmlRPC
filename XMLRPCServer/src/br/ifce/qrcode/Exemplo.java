@@ -1,10 +1,4 @@
-
-package br.ifce.teste;
-
-/*
- * Classe encontrada em http://www.guj.com.br/java/135814-zxing
- * Cria um novo QRCode que armazena o nome atribuido a ele
- */
+package br.ifce.qrcode;
 
 import java.io.File;  
 import java.io.IOException;  
@@ -21,43 +15,36 @@ import client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;  
 import com.google.zxing.qrcode.QRCodeWriter;  
   
-public class Exemplo {  
-	
-	private String nome;
-	
-	/* Construtor da classe
-	 * Recebe uma String que representara o nome do QRCode 
-     */
-	Exemplo(String s){
-		nome = s;
-	}
+public class Exemplo {
   
-	/* 
-	 * Decodifica o QRCode indicado pelo atalho
-     */
-    public void decode() {
-    	System.out.println("Decodificando...");  
+    public static void main(String[] args) {  
+  
+        encode();  
+        decode();  
+  
+        System.out.println("Fim de execução.");  
+    }  
+  
+    public static void decode() {  
+        System.out.println("Decodificando...");  
         QRCodeDecoder decoder = new QRCodeDecoder();  
-        byte[] bytes = decoder.decode(new MyImage("C:\\xampp\\htdocs" + nome + ".jpg"));  
+        
+        byte[] bytes = decoder.decode(new MyImage("C:\\xampp\\htdocs\\image.jpg"));  
   
         String result = new String(bytes);  
         System.out.println(result);  
     }  
   
-    /* 
-     * Gera o QRCode com base no nome atribuido a ele
-     */
-    
-    public String encode() {  
+    public static void encode() {  
         System.out.println("Codificando...");  
-        
+  
         Charset charset = Charset.forName("ISO-8859-1");  
         CharsetEncoder encoder = charset.newEncoder();  
         byte[] b = null;  
         try {  
             // Convert a string to ISO-8859-1 bytes in a ByteBuffer  
             java.nio.ByteBuffer bbuf = encoder.encode(CharBuffer  
-                    .wrap(nome));  
+                    .wrap("http://www.google.com.br/"));  
             b = bbuf.array();  
         } catch (CharacterCodingException e) {  
             System.out.println(e.getMessage());  
@@ -82,17 +69,14 @@ public class Exemplo {
             System.out.println(e.getMessage());  
         }  
   
-        String filePath = "C:\\xampp\\htdocs\\" + nome + ".jpg";  
+        String filePath = "C:\\testimg.jpg";  
         File file = new File(filePath);  
         try {  
             MatrixToImageWriter.writeToFile(matrix, "JPG", file);  
-            System.out.println("printing to " + file.getAbsolutePath()); 
-            return file.getAbsolutePath();
+            System.out.println("printing to " + file.getAbsolutePath());  
         } catch (IOException e) {  
             System.out.println(e.getMessage());  
         }  
-        
-        return "";
     }  
   
 }  
