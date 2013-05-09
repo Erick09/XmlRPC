@@ -65,25 +65,7 @@ public class GrabberShow implements Runnable {
 					//decodedString = ContentConverter.convert(decodedString);
 					canvas.println("\nDecode result:");
 					canvas.println(decodedString);
-					canvas.println("--------");
-				
-//					QRCodeDecoder decoder = new QRCodeDecoder();
-//					J2SEDebugCanvas imgmod = new J2SEDebugCanvas();
-//					QRCodeDecoder.setCanvas(imgmod);
-//					String decodedString = null;
-//					try {
-//						decodedString = new String(decoder.decode(new J2SEImage(im)));
-//					} catch (DecodingFailedException e) {
-//						imgmod.println(e.getMessage());
-//						imgmod.println("--------");
-//						return;
-//					}
-//					decodedString = ContentConverter.convert(decodedString);
-//					imgmod.println("\nResultado da decodificação:");
-//					imgmod.println(decodedString);
-//					imgmod.println("--------");
-					
-					
+					canvas.println("--------");	
 					
 					break;
 					 }

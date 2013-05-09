@@ -1,12 +1,15 @@
 package br.ifce.teste;
 
+import java.util.StringTokenizer;
 /*
  * A classe que armazena os metodos do servidor que podem ser acessados remotamente
  */
-import java.util.StringTokenizer;
+
 
 public class Metodos {
-	
+
+	static MontaRes ms;
+
 	public int soma(int x, int y) {
 		return x + y;
 	}
@@ -34,7 +37,12 @@ public class Metodos {
 			st.nextToken();
 			r--;
 		}while(r>1);
-		String url = "http://10.0.2.2\\"+st.nextToken();
+		String nomeimg = st.nextToken();
+		System.out.println(nomeimg);
+		if(ms==null)
+			ms = new MontaRes();
+		ms.addRes(nomeimg);
+		String url = "http://10.0.2.2\\"+nomeimg;
 		return url;
 	}
 	
@@ -51,8 +59,20 @@ public class Metodos {
 			st.nextToken();
 			r--;
 		}while(r>1);
-		String url = "http://10.0.2.2\\"+st.nextToken();
+		String nomeimg = st.nextToken();
+		ms.addRes(nomeimg);
+		String url = "http://10.0.2.2\\"+nomeimg;
 		return url;
+	}
+		
+	public String mountRes(String s)
+	{
+		if(ms==null)
+			ms = new MontaRes();
+		ms.endRes();
+		ms = null;
+		
+		return "";
 	}
 
 }
