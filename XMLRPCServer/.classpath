@@ -17,5 +17,6 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/erick/workspace/QRCode/javacv-macosx-x86_64.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/erick/workspace/QRCode/javacv-windows-x86.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/erick/workspace/QRCode/javacv-windows-x86_64.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/erick/Downloads/mysql-connector-java-5.1.25/mysql-connector-java-5.1.25-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

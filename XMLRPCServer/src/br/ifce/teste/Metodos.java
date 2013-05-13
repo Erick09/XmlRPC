@@ -29,7 +29,12 @@ public class Metodos {
 	 */
 	public String urlQr(String usuario, String item, int qtd)
 	{
-		Exemplo exe = new Exemplo(usuario+item+qtd);
+
+    	System.out.println(usuario+"\n"+item);
+		Obqrcode us = new Obqrcode(usuario,item,qtd); 
+		us.salvar();
+		
+		Exemplo exe = new Exemplo(us.recuperar());
 		String res = exe.encode();
 		StringTokenizer st = new StringTokenizer(res, "\\");
 		int r = st.countTokens();

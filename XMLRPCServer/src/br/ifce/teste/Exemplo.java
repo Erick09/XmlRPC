@@ -13,6 +13,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;  
 import java.nio.charset.Charset;  
 import java.nio.charset.CharsetEncoder;  
+import java.util.StringTokenizer;
   
 import jp.sourceforge.qrcode.QRCodeDecoder;  
   
@@ -38,7 +39,7 @@ public class Exemplo {
     public void decode() {
     	System.out.println("Decodificando...");  
         QRCodeDecoder decoder = new QRCodeDecoder();  
-        byte[] bytes = decoder.decode(new MyImage("C:\\xampp\\htdocs" + nome + ".jpg"));  
+        byte[] bytes = decoder.decode(new MyImage("C:\\xampp\\htdocs\\image2.jpg"));  
   
         String result = new String(bytes);  
         System.out.println(result);  
@@ -72,8 +73,8 @@ public class Exemplo {
   
         // get a byte matrix for the data  
         BitMatrix matrix = null;  
-        int h = 100;  
-        int w = 100;  
+        int h = 250;  
+        int w = 250;  
         com.google.zxing.Writer writer = new QRCodeWriter();  
         try {  
             matrix = writer.encode(data,  
@@ -81,8 +82,11 @@ public class Exemplo {
         } catch (com.google.zxing.WriterException e) {  
             System.out.println(e.getMessage());  
         }  
-  
-        String filePath = "C:\\xampp\\htdocs\\" + nome + ".jpg";  
+        
+        StringTokenizer nom = new StringTokenizer(nome,":");
+        String sal = nom.nextToken()+"_"+nom.nextToken()+"_"+nom.nextToken();        
+        
+        String filePath = "C:\\xampp\\htdocs\\" + sal + ".jpg";  
         File file = new File(filePath);  
         try {  
             MatrixToImageWriter.writeToFile(matrix, "JPG", file);  
