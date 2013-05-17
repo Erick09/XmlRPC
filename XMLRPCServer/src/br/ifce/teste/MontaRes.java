@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MontaRes {
 	
@@ -18,6 +19,12 @@ public class MontaRes {
 		  					"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"+
 		  					"<!-- Bootstrap -->"+
 		  					"<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\" media=\"screen\">"+
+		  					"<script type=\"text/javascript\">"+
+		  					 	"var intervalo = window.setInterval(recarrega, 1000);"+
+		  					 	"function recarrega(){"+
+		  					 	"	JSInterface.testasub();}"+
+		  					"</script>"+
+		  						  					
 		  				"</head>"+
 		  				"<body>"+
 		  					"<div class=\"navbar navbar-inverse\">"+
@@ -28,6 +35,26 @@ public class MontaRes {
 		  					"<div class=\"accordion\" id=\"accordion2\">";
 		
 		numdoPedido=0;
+	}
+	
+	public void capturaLista()
+	{
+		ConectaBanco cb = new ConectaBanco("jdbc:mysql://localhost/qrcode", "root", "");	
+		String res;
+		
+		ArrayList<Obqrcode> a = new ArrayList<Obqrcode>();
+        a =  cb.busca("SELECT * FROM qrcode.cadastro WHERE Usuario LIKE 'Usuario1';"); 
+        int i=0;
+        while(a.size()>i){
+        	Obqrcode ab = a.get(i);
+        	if(ab.getValido()==1){
+        		res = ab.getUsuario()+"_"+ab.getProduto()+"_"+ab.getQuantidade()+"_"+ab.getId()+".jpg";
+        		addRes(res);
+        	} else{
+        		res = "nao achamos seu Produto";
+        	}
+        	i++;
+        }
 	}
 	
 	public void addRes(String s){

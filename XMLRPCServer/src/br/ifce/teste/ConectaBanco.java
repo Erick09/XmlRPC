@@ -72,9 +72,8 @@ public class ConectaBanco {
 
     }
     
-    public ArrayList busca(String s) {
-        ArrayList amigo = new ArrayList();
-        Obqrcode a = new Obqrcode();
+    public ArrayList<Obqrcode> busca(String s) {
+        ArrayList<Obqrcode> lista = new ArrayList<Obqrcode>();
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             //System.out.println("\n Salvando URL: ...\n");
@@ -86,11 +85,14 @@ public class ConectaBanco {
                     try {
                         ResultSet rs = stm.executeQuery(sql);
                         while (rs.next()) {
+                        	Obqrcode a = new Obqrcode();
                             a.setUsuario(rs.getString(1));
                             a.setProduto(rs.getString(2));
                             a.setQuantidade(rs.getInt(3));
                             a.setId(rs.getInt(4));
-                            amigo.add(a);
+                            a.setValido(rs.getInt(5));
+                            lista.add(a);
+                            a=null;
                         }
                         //System.out.println(rs.getInt(1));
                     } catch (Exception ex) {
@@ -105,7 +107,36 @@ public class ConectaBanco {
         } catch (Exception ex) {
             System.out.println("\nDriver nao pode ser carregado!");
         }
-        return amigo;
+        
+        return lista;
+    }
+    
+    public void invalidaQr(String s)
+    {
+    	try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //System.out.println("\n Salvando URL: ...\n");
+            try {
+                Connection conn = DriverManager.getConnection(getUrl(), getLogin(), getSenha());
+                try {
+                    String sql = s;
+                    System.out.println(s);
+                    Statement stm = conn.createStatement();
+                    try {
+                        stm.executeUpdate(sql);
+                    } catch (Exception ex) {
+                        System.out.println("\nErro no resultset!\n" + ex);
+                        ex.printStackTrace();
+                    }
+                } catch (Exception ex) {
+                    System.out.println("\nErro no statement!");
+                }
+            } catch (Exception ex) {
+                System.out.println("\nErro no connection!");
+            }
+        } catch (Exception ex) {
+            System.out.println("\nDriver nao pode ser carregado!");
+        }
     }
 }
 

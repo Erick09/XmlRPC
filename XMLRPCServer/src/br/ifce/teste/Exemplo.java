@@ -84,7 +84,7 @@ public class Exemplo {
         }  
         
         StringTokenizer nom = new StringTokenizer(nome,":");
-        String sal = nom.nextToken()+"_"+nom.nextToken()+"_"+nom.nextToken();        
+        String sal = nom.nextToken()+"_"+nom.nextToken()+"_"+nom.nextToken()+"_"+nom.nextToken();        
         
         String filePath = "C:\\xampp\\htdocs\\" + sal + ".jpg";  
         File file = new File(filePath);  

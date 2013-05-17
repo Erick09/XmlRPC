@@ -27,7 +27,7 @@ public class ServidorXMLRPCParaTestes {
 			server.start(); // inicia o servidor.
 			
 			//Desliga o servidor apos 1 minuto de funcionamento 
-			int delay = 60000; //milliseconds
+			int delay = 90000; //milliseconds
 	        ActionListener taskPerformer = new ActionListener() {
 	                public void actionPerformed(ActionEvent evt) {
 	                   server.shutdown();

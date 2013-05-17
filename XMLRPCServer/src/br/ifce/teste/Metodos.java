@@ -1,5 +1,6 @@
 package br.ifce.teste;
 
+import java.io.File;
 import java.util.StringTokenizer;
 /*
  * A classe que armazena os metodos do servidor que podem ser acessados remotamente
@@ -9,6 +10,7 @@ import java.util.StringTokenizer;
 public class Metodos {
 
 	static MontaRes ms;
+	int induser=0;
 
 	public int soma(int x, int y) {
 		return x + y;
@@ -31,10 +33,10 @@ public class Metodos {
 	{
 
     	System.out.println(usuario+"\n"+item);
-		Obqrcode us = new Obqrcode(usuario,item,qtd); 
+		Obqrcode us = new Obqrcode(usuario,item,qtd,1); 
 		us.salvar();
 		
-		Exemplo exe = new Exemplo(us.recuperar());
+		Exemplo exe = new Exemplo(us.recuperar(induser));
 		String res = exe.encode();
 		StringTokenizer st = new StringTokenizer(res, "\\");
 		int r = st.countTokens();
@@ -44,40 +46,43 @@ public class Metodos {
 		}while(r>1);
 		String nomeimg = st.nextToken();
 		System.out.println(nomeimg);
-		if(ms==null)
-			ms = new MontaRes();
-		ms.addRes(nomeimg);
 		String url = "http://10.0.2.2\\"+nomeimg;
+		
+		induser++;
+		
 		return url;
 	}
 	
-	/* Recebe o produto clicado no WebView
-	 * Retorna a url do QRCode gerado pelo servidor
-	 */
-	public String urlQrcode(String produto)
-	{
-		Exemplo exe = new Exemplo(produto);
-		String res = exe.encode();
-		StringTokenizer st = new StringTokenizer(res, "\\");
-		int r = st.countTokens();
-		do{
-			st.nextToken();
-			r--;
-		}while(r>1);
-		String nomeimg = st.nextToken();
-		ms.addRes(nomeimg);
-		String url = "http://10.0.2.2\\"+nomeimg;
-		return url;
-	}
-		
 	public String mountRes(String s)
 	{
 		if(ms==null)
 			ms = new MontaRes();
+		ms.capturaLista();
 		ms.endRes();
 		ms = null;
 		
 		return "";
+	}
+	
+	public String testasub(String s)
+	{
+		String filePath = "C:\\xampp\\htdocs\\resp.html";  
+        File file = new File(filePath);
+        
+        long s1 = file.length();
+        
+        
+		ms = new MontaRes();
+		ms.capturaLista();
+		ms.endRes();
+		
+		long s2 = file.length();
+				       
+		if(s2 != s1){
+			return 1+"";
+		}
+			
+		return 0+"";
 	}
 
 }

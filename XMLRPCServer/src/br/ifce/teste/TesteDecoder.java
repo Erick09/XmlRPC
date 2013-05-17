@@ -3,6 +3,7 @@ package br.ifce.teste;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
 
@@ -44,8 +45,6 @@ public class TesteDecoder implements Runnable{
 			grabber.start(); 
 			IplImage img; 
 			while (true) {
-				//grabber.setImageHeight(200);
-				//grabber.setImageWidth(200);
 				img = grabber.grab(); 
 				if (img != null) { 
 					//cvFlip(img, img, 1);// l-r = 90_degrees_steps_anti_clockwise 
@@ -68,7 +67,23 @@ public class TesteDecoder implements Runnable{
 					} catch (ReaderException re) {
 						System.out.println(re.toString());
 					}
-					System.out.println(String.valueOf(result.getText()));
+					String nomedec = String.valueOf(result.getText());
+					System.out.println(nomedec);
+										
+					StringTokenizer nom = new StringTokenizer(nomedec,":");
+			        String nomarq = nom.nextToken()+"_"+nom.nextToken()+"_"+nom.nextToken()+"_";
+			        
+			        String id = nom.nextToken();
+			        Obqrcode cod = new Obqrcode();
+			        cod.invalidaqr(Integer.parseInt(id));
+			        			        
+			        nomarq = nomarq+id+".jpg";
+					File arquivo = new File("c:\\xampp\\htdocs\\"+nomarq);
+			        
+			        if(arquivo.delete())
+			          System.out.println("Arquivo excluido com sucesso.");
+			        else
+			          System.out.println("Não foi possivel excluir o arquivo");
 					
 					break;
 					 }
